@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <van-sticky>
+      <van-search v-model="value" placeholder="请输入搜索关键词" />
+    </van-sticky>
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item v-for="i in banners.data" :key="i.id">
         <img :src="i.coverImage | dalImg" alt />
@@ -15,7 +18,8 @@ export default {
   name: 'Home',
   data () {
     return {
-      banners: []
+      banners: [],
+      value: ""
     }
   },
   created () {

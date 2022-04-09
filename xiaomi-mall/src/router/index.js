@@ -41,6 +41,17 @@ const routes = [{
     name: 'Login',
     path: '/login',
     component: () => import('../views/user/Login.vue')
+  }, {
+    name: 'Reg',
+    path: '/reg',
+    component: () => import('../views/user/Reg.vue')
+  }, {
+    meta: {
+      needLogin: true
+    },
+    name: 'News',
+    path: '/news',
+    component: () => import('../views/News.vue')
   }
 ]
 const isLoged = () => {

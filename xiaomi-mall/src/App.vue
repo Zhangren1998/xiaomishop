@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <van-tabbar active-color="#1989fa" v-model="active">
+    <van-tabbar active-color="#1989fa" v-model="active" :fixed="false" v-show="isShow">
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="shop-o" :to="{ name: 'List' }">分类</van-tabbar-item>
       <van-tabbar-item icon="shopping-cart-o" :to="{ name: 'Cart' }">购物车</van-tabbar-item>
@@ -26,27 +26,20 @@ export default {
   methods: {
 
   },
+  computed: {
+    isShow () {
+      if (this.$route.meta.tabHide) {
+        return false
+      } else {
+        return true
+      }
+    }
+  }
 };
 </script>
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  width: 100vw;
+  height: 100vh;
 }
 </style>

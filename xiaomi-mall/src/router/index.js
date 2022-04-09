@@ -40,10 +40,16 @@ const routes = [{
   {
     name: 'Login',
     path: '/login',
+    meta: {
+      tabHide: true
+    },
     component: () => import('../views/user/Login.vue')
   }, {
     name: 'Reg',
     path: '/reg',
+    meta: {
+      tabHide: true
+    },
     component: () => import('../views/user/Reg.vue')
   }, {
     meta: {
@@ -52,6 +58,13 @@ const routes = [{
     name: 'News',
     path: '/news',
     component: () => import('../views/News.vue')
+  }, {
+    name: 'Detail',
+    path: '/product/:id',
+    meta: {
+      tabHide: true
+    },
+    component: () => import('../views/Detail.vue')
   }
 ]
 const isLoged = () => {

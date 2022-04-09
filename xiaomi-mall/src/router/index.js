@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Home',
+    component: () => import('@/views/HomeView.vue'),
   },
   {
     path: '/about',
@@ -16,11 +15,60 @@ const routes = [{
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import( /* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    name: 'List',
+    path: '/list',
+    component: () => import('../views/List.vue')
+  },
+  {
+    meta: {
+      needLogin: true
+    },
+    name: 'User',
+    path: '/user',
+    component: () => import('../views/User.vue')
+  },
+  {
+    meta: {
+      needLogin: true
+    },
+    name: 'Cart',
+    path: '/cart',
+    component: () => import('../views/Cart.vue')
+  },
+  {
+    name: 'Login',
+    path: '/login',
+    component: () => import('../views/user/Login.vue')
   }
 ]
+const isLoged = () => {
+  if (sessionStorage.getItem('token')) {
+    return true
+  } else {
+    return false
+  }
+}
+
 
 const router = new VueRouter({
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.meta.needLogin) {
+    if (isLoged()) {
+      next()
+    } else {
+      next({
+        path: 'login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
 export default router

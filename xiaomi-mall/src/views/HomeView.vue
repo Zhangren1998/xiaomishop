@@ -1,18 +1,37 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+      <van-swipe-item v-for="i in banners.data" :key="i.id">
+        <img :src="i.coverImage | dalImg" alt />
+      </van-swipe-item>
+    </van-swipe>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import { loadBanners } from '@/services/banner.js'
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
+  name: 'Home',
+  data () {
+    return {
+      banners: []
+    }
+  },
+  created () {
+    this.loadBanner()
+  },
+  methods: {
+    async loadBanner () {
+      const banner = await loadBanners()
+      this.banners = banner.data
+      console.log(this.banners);
+    }
   }
 }
 </script>
+<style scoped>
+img {
+  width: 100%;
+}
+</style>

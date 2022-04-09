@@ -1,13 +1,33 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <router-view />
+    <van-tabbar active-color="#1989fa" v-model="active">
+      <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
+      <van-tabbar-item icon="shop-o" :to="{ name: 'List' }">分类</van-tabbar-item>
+      <van-tabbar-item icon="shopping-cart-o" :to="{ name: 'Cart' }">购物车</van-tabbar-item>
+      <van-tabbar-item icon="user-o" :to="{ name: 'User' }">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
+<script>
+export default {
+  name: 'XiaomiMallApp',
 
+  data () {
+    return {
+      active: 0
+    };
+  },
+
+  mounted () {
+
+  },
+
+  methods: {
+
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

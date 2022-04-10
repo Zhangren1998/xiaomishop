@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { getInfo } from '@/services/user/getInfo'
 export default {
   name: 'XiaomiMallUser',
 
@@ -17,10 +18,16 @@ export default {
   mounted () {
 
   },
-
-  methods: {
-
+  created () {
+    this.loadInfo()
   },
+  methods: {
+    async loadInfo () {
+      const data = await getInfo()
+      console.log(data);
+    }
+  },
+
 };
 </script>
 

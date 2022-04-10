@@ -22,6 +22,7 @@ export const dele = (url, params) => instance.delete(url, params)
 instance.interceptors.request.use(function (config) {
   // Do something before request is sent
   NProgress.start()
+  config.headers.token = sessionStorage.getItem("token")
   return config;
 }, function (error) {
   // Do something with request error

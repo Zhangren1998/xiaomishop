@@ -77,6 +77,7 @@ const isLoged = () => {
 
 
 const router = new VueRouter({
+  base: import.meta.env.BASE_URL,
   routes
 })
 router.beforeEach((to, from, next) => {

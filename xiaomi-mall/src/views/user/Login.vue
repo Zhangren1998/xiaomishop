@@ -1,5 +1,6 @@
 <template>
   <div>
+    <van-nav-bar title="登录" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-form @submit="onSubmit">
       <van-field
         v-model="username"
@@ -20,10 +21,12 @@
         <van-button round block type="info" native-type="submit">提交</van-button>
       </div>
     </van-form>
+    <router-link class="a-link" :to="{ name: 'Reg' }">没有账号？点击注册</router-link>
   </div>
 </template>
 
 <script>
+import { login } from '@/services/user/login.js'
 export default {
   name: 'XiaomiMallLogin',
 
@@ -39,12 +42,24 @@ export default {
   },
 
   methods: {
-    onSubmit (values) {
-      console.log('submit', values);
+    onSubmit () {
+      login({ userName: this.username, password: this.password }).then(res => {
+        console.log(res.data);
+        sessionStorage.setItem("token", res.data.data)
+        this.$router.push("/")
+      })
+    },
+    onClickLeft () {
+      this.$router.go(-1)
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
+.a-link {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
 </style>

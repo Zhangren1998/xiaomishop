@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="listView">
     <div class="list">
       <van-sidebar v-model="activeKey">
         <van-sidebar-item
@@ -67,10 +67,14 @@ export default {
 <style  scoped>
 .list {
   display: flex;
+  width: 100vw;
 }
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+.listView {
+  width: 100vw;
 }
 </style>

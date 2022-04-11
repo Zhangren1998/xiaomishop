@@ -134,7 +134,8 @@ img {
   color: rgba(126, 77, 29, 1);
 }
 .van-col{
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  height: 264px;
 }
 .van-card {
   display: flex;
@@ -178,9 +179,9 @@ img {
   background-color: red;
   color: white;
   width: 100px;
-  height: 35px;
+  height: 30px;
   font-size: 13px;
-  margin: 5px 0 15px 0;
+  margin: 5px 0;
 }
 .van-card__thumb {
   position: static;

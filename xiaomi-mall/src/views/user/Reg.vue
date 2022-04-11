@@ -20,6 +20,7 @@
           </van-radio-group>
         </template>
       </van-field>
+<<<<<<< HEAD
       <van-field
         v-model="nickName"
         name="昵称"
@@ -59,6 +60,18 @@
         <van-button round block type="info" native-type="submit"
           >注册</van-button
         >
+=======
+      <van-field v-model="nickName" name="昵称" label="昵称" placeholder="昵称"
+        :rules="[{ required: true, message: '请填写昵称' }]" />
+      <van-field v-model="username" name="用户名" label="用户名" placeholder="用户名"
+        :rules="[{ required: true, message: '请填写用户名' }]" />
+      <van-field v-model="password" type="password" name="密码" label="密码" placeholder="密码"
+        :rules="[{ required: true, message: '请填写密码' }]" />
+      <van-field v-model="confirmPassword" type="password" name="确认密码" label="确认密码" placeholder="确认密码"
+        :rules="[{ required: true, message: '请确认密码' }]" />
+      <div style="margin: 16px;">
+        <van-button round block type="info" native-type="submit">注册</van-button>
+>>>>>>> ce99deffb24e5cf4a265af3b1adae69c5aa84569
       </div>
     </van-form>
     <router-link class="a-link" :to="{ name: 'Login' }"
@@ -68,8 +81,14 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { reg } from "@/services/user/reg";
 import { Toast } from "vant";
+=======
+// eslint-disable-next-line no-unused-vars
+import { reg, upFile } from '@/services/user/reg';
+import { Toast } from 'vant';
+>>>>>>> ce99deffb24e5cf4a265af3b1adae69c5aa84569
 export default {
   name: "XiaomiMallReg",
 
@@ -81,14 +100,20 @@ export default {
       fileList: [],
       file: "",
       nickName: "",
+<<<<<<< HEAD
       radio: "男",
       pattern: /^[a-zA-Z]\w{5,17}$/,
+=======
+      radio: '男',
+      fileData: ''
+>>>>>>> ce99deffb24e5cf4a265af3b1adae69c5aa84569
     };
   },
 
   mounted() {},
 
   methods: {
+<<<<<<< HEAD
     afterRead(file) {
       // 此时可以自行将文件上传至服务器
       console.log(file);
@@ -108,6 +133,23 @@ export default {
           nickName: this.nickName,
           gender: this.radio,
         }).then((res) => {
+=======
+    async afterRead (file) {
+      // 此时可以自行将文件上传至服务器
+      const formData = new FormData()
+      formData.append('file', file.file)
+      const upFileRes = await upFile(formData)
+      if (upFileRes.data.code == 1) {
+        this.fileData = upFileRes.data.data
+      } else {
+        Toast('上传头像失败')
+      }
+    },
+    async onSubmit () {
+      if (this.username && this.password && this.password == this.confirmPassword) {
+
+        reg({ userName: this.username, password: this.password, avatar: this.fileData, nickName: this.nickName, gender: this.radio }).then(res => {
+>>>>>>> ce99deffb24e5cf4a265af3b1adae69c5aa84569
           console.log(res.data);
           sessionStorage.setItem("token", res.data.data);
           this.$router.push("/");

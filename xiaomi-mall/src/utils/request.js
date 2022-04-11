@@ -23,7 +23,11 @@ export const dele = (url, params) => instance.delete(url, params)
 instance.interceptors.request.use(function (config) {
   // Do something before request is sent
   NProgress.start()
-  config.headers.token = sessionStorage.getItem("token")
+  let token = sessionStorage.getItem("token"); //获取到从后端传来的token，然后存到session里面
+  if (token) {
+    config.headers.token = token; //然后赋值就行
+  }
+
   return config;
 }, function (error) {
   // Do something with request error

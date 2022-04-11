@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <div class="userTem">
+    <van-nav-bar title="我的" />
     <div class="info" style="background-color:#e26a3c">
+
       <img :src="info.avatar | dalImg" alt="">
       <div class="userInfo">
         <span class="nickName" v-text="info.nickName" style="font-weight:500"></span>
@@ -13,9 +15,31 @@
       <van-grid-item icon="exchange" text="退换修" />
     </van-grid>
     <div class="card">
-      <van-cell title="优惠券" is-link icon="coupon" />
-      <van-cell title="会员福利" is-link icon="vip-card" />
-      <van-cell title="我的钱包" is-link icon="card" />
+      <van-cell value="" is-link v-for="i in contentTop" :key="i">
+        <!-- 使用 title 插槽来自定义标题 -->
+        <template #title>
+          <van-icon :icon="i.icon" :name="i.icon" :color="i.color" size="18px" style="margin-right:8px"></van-icon>
+          <span class="custom-title">{{ i.title }}</span>
+        </template>
+      </van-cell>
+    </div>
+    <div class="card">
+      <van-cell value="" is-link v-for="i in contentMid" :key="i">
+        <!-- 使用 title 插槽来自定义标题 -->
+        <template #title>
+          <van-icon :icon="i.icon" :name="i.icon" :color="i.color" size="18px" style="margin-right:8px"></van-icon>
+          <span class="custom-title">{{ i.title }}</span>
+        </template>
+      </van-cell>
+    </div>
+    <div class="card">
+      <van-cell value="" is-link>
+        <!-- 使用 title 插槽来自定义标题 -->
+        <template #title>
+          <van-icon icon="setting" name="setting" color="#889bb3" size="18px" style="margin-right:8px"></van-icon>
+          <span class="custom-title">设置</span>
+        </template>
+      </van-cell>
     </div>
   </div>
 </template>
@@ -27,7 +51,41 @@ export default {
 
   data () {
     return {
-      info: []
+      info: [],
+      contentTop: [
+        {
+          title: '优惠券',
+          icon: 'coupon',
+          color: '#ff703a'
+        },
+        {
+          title: '会员福利',
+          icon: 'vip-card',
+          color: '#ff9500'
+        },
+        {
+          title: '我的钱包',
+          icon: 'card',
+          color: '#40aefc'
+        },
+      ],
+      contentMid: [
+        {
+          title: '服务中心',
+          icon: 'bell',
+          color: '#f5574e'
+        },
+        {
+          title: '小米之家',
+          icon: 'wap-home',
+          color: '#ff9500'
+        },
+        {
+          title: '更多功能',
+          icon: 'weapp-nav',
+          color: '#96c338'
+        },
+      ],
     };
   },
 
@@ -49,6 +107,10 @@ export default {
 </script>
 
 <style  scoped>
+.userTem {
+  background: #f5f5f5;
+}
+
 .info {
   height: 30vh;
   width: 100%;
@@ -69,5 +131,10 @@ export default {
   margin-left: 10px;
   font-size: 22px;
   padding: 8px;
+}
+
+.card {
+  margin-top: 5vh;
+  margin-bottom: 3vh;
 }
 </style>

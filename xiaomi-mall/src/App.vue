@@ -1,45 +1,76 @@
 <template>
   <div id="app">
-    <router-view />
-    <van-tabbar active-color="#1989fa" v-model="active" :fixed="false" v-show="isShow">
-      <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
-      <van-tabbar-item icon="shop-o" :to="{ name: 'List' }">分类</van-tabbar-item>
-      <van-tabbar-item icon="shopping-cart-o" :to="{ name: 'Cart' }">购物车</van-tabbar-item>
-      <van-tabbar-item icon="user-o" :to="{ name: 'User' }">我的</van-tabbar-item>
+    <router-view class="main"></router-view>
+    <van-tabbar
+      active-color="orange"
+      v-model="active"
+      :fixed="false"
+      v-show="isShow"
+    >
+      <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
+      <van-tabbar-item icon="search" :to="{ name: 'List' }"
+        >分类</van-tabbar-item
+      >
+      <van-tabbar-item icon="shop" :to="{ name: 'List' }">发现</van-tabbar-item>
+      <van-tabbar-item icon="shopping-cart" :to="{ name: 'Cart' }"
+        >购物车</van-tabbar-item
+      >
+      <van-tabbar-item icon="manager" :to="{ name: 'User' }"
+        >我的</van-tabbar-item
+      >
     </van-tabbar>
   </div>
 </template>
 <script>
 export default {
-  name: 'XiaomiMallApp',
+  name: "XiaomiMallApp",
 
-  data () {
+  data() {
     return {
-      active: 0
+      active: 0,
     };
   },
 
-  mounted () {
+  mounted() {},
 
-  },
-
-  methods: {
-
-  },
+  methods: {},
   computed: {
-    isShow () {
+    isShow() {
       if (this.$route.meta.tabHide) {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
-    }
-  }
+    },
+  },
+  components: {},
 };
 </script>
 <style>
 #app {
   width: 100vw;
   height: 100vh;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body,
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1;
+  overflow: auto;
+}
+img {
+  max-width: 100%;
 }
 </style>

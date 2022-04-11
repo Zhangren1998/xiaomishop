@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <van-tabbar active-color="#1989fa" v-model="active" :fixed="false" v-show="isShow">
+    <van-tabbar active-color="#1989fa" v-model="active" v-show="isShow" :fixed="false" class="main-nav">
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="shop-o" :to="{ name: 'List' }">分类</van-tabbar-item>
       <van-tabbar-item icon="shopping-cart-o" :to="{ name: 'Cart' }">购物车</van-tabbar-item>
@@ -38,8 +38,15 @@ export default {
 };
 </script>
 <style>
-#app {
+#app,
+html,
+body {
   width: 100vw;
   height: 100vh;
+
+}
+
+* {
+  box-sizing: border-box;
 }
 </style>

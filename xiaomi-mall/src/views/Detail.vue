@@ -12,7 +12,7 @@
       @buy-clicked="onBuyClicked" @add-cart="onAddCartClicked" />
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" dot />
-      <van-goods-action-icon icon="cart-o" text="购物车" :badge="count" />
+      <van-goods-action-icon icon="cart-o" text="购物车" :badge="count > 0 ? count : false" />
       <van-goods-action-button type="warning" text="加入购物车" @click="show = true" />
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { loadCartAPI, } from '@/services/carts'
 import { getDetails, addCart } from '@/services/details'
 import { serveUrl } from '@/utils/request'
 import { Toast } from 'vant';
@@ -78,13 +79,17 @@ export default {
 
   },
   created () {
-    this.loadDetail()
+    this.loadDetail(),
+      this.loadCount()
   },
   methods: {
+    async loadCount () {
+      const data = await loadCartAPI()
+      this.count = data.data.data.reduce((pre, val) => pre * 1 + val.amount * 1, 0)
+    },
     async loadDetail () {
       const data = await getDetails(this.$route.params.id);
       this.detail = data.data.data
-      console.log(this.detail);
       this.sku.list[0].price = this.detail.price * 100;
       this.sku.list[0].stock_num = this.detail.amount
       this.sku.list[0].id = this.detail.id
@@ -92,15 +97,17 @@ export default {
       this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage
       this.goods.picture = serveUrl + this.detail.coverImage
     },
+
     onClickLeft () {
       this.$router.go(-1)
     },
     async onAddCartClicked (sku) {
-      console.log(sku);
       const data = await addCart({ amount: sku.selectedNum, price: sku.selectedSkuComb.price / 100, product: sku.selectedSkuComb.id })
-      console.log(data.data);
+      console.log(data);
       if (data.data.code == 1) {
         Toast('加入成功')
+        this.count = this.$store.state.count
+        this.loadCount()
         this.show = false
       }
     },

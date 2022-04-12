@@ -26,6 +26,8 @@ const routes = [
   {
     meta: {
       needLogin: true,
+      needFixed: true,
+      tabHide: true,
     },
     name: "User",
     path: "/user",

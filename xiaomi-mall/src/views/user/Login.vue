@@ -10,7 +10,7 @@
         <van-button round block type="info" native-type="submit">提交</van-button>
       </div>
     </van-form>
-    <router-link class="a-link" :to="{ name: 'Reg' }">没有账号？点击注册</router-link>
+    <router-link class="a-link" to="/reg">没有账号？点击注册</router-link>
   </div>
 </template>
 

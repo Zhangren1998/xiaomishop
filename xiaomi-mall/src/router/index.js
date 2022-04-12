@@ -51,7 +51,7 @@ const routes = [{
     meta: {
       tabHide: true
     },
-    component: () => import('../views/user/Reg.vue')
+    component: () => import('@/views/user/Reg.vue')
   }, {
     meta: {
       needLogin: true
@@ -78,7 +78,6 @@ const isLoged = () => {
 
 
 const router = new VueRouter({
-  base: import.meta.env.BASE_URL,
   routes
 })
 router.beforeEach((to, from, next) => {

@@ -11,7 +11,7 @@
         ></span>
       </div>
       <router-link :to="{ name: 'xiaoXi' }">
-        <van-icon name="comment-o" color="#f5f5f5" size="30" />
+        <van-icon name="comment-o" color="#f5f5f5" size="30" id="news" />
       </router-link>
     </div>
     <van-grid>
@@ -21,7 +21,7 @@
       <van-grid-item icon="exchange" text="退换修" />
     </van-grid>
     <div class="card">
-      <van-cell value="" is-link v-for="i in contentTop" :key="i">
+      <van-cell value="" is-link v-for="i in contentTop" :key="i.id">
         <!-- 使用 title 插槽来自定义标题 -->
         <template #title>
           <van-icon
@@ -36,7 +36,7 @@
       </van-cell>
     </div>
     <div class="card">
-      <van-cell value="" is-link v-for="i in contentMid" :key="i">
+      <van-cell value="" is-link v-for="i in contentMid" :key="i.id">
         <!-- 使用 title 插槽来自定义标题 -->
         <template #title>
           <van-icon
@@ -78,16 +78,19 @@ export default {
       info: [],
       contentTop: [
         {
+          id: 1,
           title: "优惠券",
           icon: "coupon",
           color: "#ff703a",
         },
         {
+          id: 2,
           title: "会员福利",
           icon: "vip-card",
           color: "#ff9500",
         },
         {
+          id: 3,
           title: "我的钱包",
           icon: "card",
           color: "#40aefc",
@@ -95,16 +98,19 @@ export default {
       ],
       contentMid: [
         {
+          id: 1,
           title: "服务中心",
           icon: "bell",
           color: "#f5574e",
         },
         {
+          id: 2,
           title: "小米之家",
           icon: "wap-home",
           color: "#ff9500",
         },
         {
+          id: 3,
           title: "更多功能",
           icon: "weapp-nav",
           color: "#96c338",
@@ -160,8 +166,8 @@ export default {
 }
 .van-icon-comment-o:before {
   content: "\e698";
-  position: fixed;
-  top: 80px;
+  position: absolute;
+  /* top: 80px; */
   right: 20px;
 }
 </style>

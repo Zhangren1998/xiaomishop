@@ -11,39 +11,27 @@
 </template>
 <script>
 export default {
-  name: 'XiaomiMallApp',
+  name: "XiaomiMallApp",
 
   data () {
     return {
-      active: 0
+      active: 0,
     };
   },
-  created () {
-  },
-  mounted () {
-  },
 
+  mounted () { },
 
-  methods: {
-
-  },
+  methods: {},
   computed: {
     isShow () {
       if (this.$route.meta.tabHide) {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
     },
-    isFixed () {
-      if (this.$route.meta.needFixed) {
-        return true
-      } else {
-        return false
-      }
-    }
   },
-
+  components: {},
 };
 </script>
 <style>
@@ -52,12 +40,38 @@ html,
 body {
   width: 100%;
   height: 100vh;
-
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+}
+
+img {
+  max-width: 100%;
 }
 </style>

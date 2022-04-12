@@ -18,18 +18,17 @@
 import { login } from '@/services/user/login.js'
 import { Notify } from 'vant';
 export default {
-  name: 'XiaomiMallLogin',
+  name: "XiaomiMallLogin",
 
   data () {
     return {
-      username: '',
-      password: '',
+      username: "",
+      password: "",
+      pattern: /^[a-zA-Z]\w{5,17}$/,
     };
   },
 
-  mounted () {
-
-  },
+  mounted () { },
 
   methods: {
     onSubmit () {
@@ -45,13 +44,16 @@ export default {
       })
     },
     onClickLeft () {
-      this.$router.back()
+      this.$router.go(-1);
+    },
+    validator (val) {
+      return /^\w{6,25}$/.test(val);
     },
   },
 };
 </script>
 
-<style  scoped>
+<style scoped>
 .a-link {
   display: inline-block;
   width: 100%;

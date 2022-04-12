@@ -1,12 +1,13 @@
 import axios from 'axios';
 import 'nprogress/nprogress.css'
 import NProgress from 'nprogress'
-// export const serveUrl = 'https://grumpy-fireant-26.loca.lt'
-export const serveUrl = 'http://192.168.1.13:1337'
+// export const serveUrl = 'https://brown-duck-8.loca.lt'
+export const serveUrl = ' https://weak-robin-43.loca.lt'
+// export const serveUrl = 'http://192.168.1.13:1337'
 
 export const instance = axios.create({
   baseURL: serveUrl,
-  timeout: 5000,
+  // timeout: 5000,
 })
 export const get = (url, params) => instance.get(url, {
   params

@@ -23,6 +23,7 @@ export default {
     }
   },
   created () {
+    sessionStorage.setItem('active', 0)
     this.loadBanner()
   },
   methods: {

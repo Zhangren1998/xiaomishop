@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <van-tabbar active-color="#1989fa" v-model="active" v-show="isShow" :fixed="false" class="main-nav">
+    <van-tabbar :route="true" active-color="#1989fa" v-model="active" v-show="isShow" :fixed="isFixed" class="main-nav">
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="shop-o" :to="{ name: 'List' }">分类</van-tabbar-item>
       <van-tabbar-item icon="shopping-cart-o" :to="{ name: 'Cart' }">购物车</van-tabbar-item>
@@ -18,10 +18,11 @@ export default {
       active: 0
     };
   },
-
-  mounted () {
-
+  created () {
   },
+  mounted () {
+  },
+
 
   methods: {
 
@@ -33,20 +34,30 @@ export default {
       } else {
         return true
       }
+    },
+    isFixed () {
+      if (this.$route.meta.needFixed) {
+        return true
+      } else {
+        return false
+      }
     }
-  }
+  },
+
 };
 </script>
 <style>
 #app,
 html,
 body {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 </style>

@@ -31,7 +31,8 @@ const routes = [{
   },
   {
     meta: {
-      needLogin: true
+      needLogin: true,
+      needFixed: true
     },
     name: 'Cart',
     path: '/cart',

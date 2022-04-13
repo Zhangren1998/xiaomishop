@@ -18,7 +18,7 @@
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" dot />
       <!-- <van-goods-action-icon icon="cart-o" text="购物车" :badge="badge" /> -->
-      <van-goods-action-icon icon="cart-o" text="购物车" :badge="$store.state.carts.count" />
+      <van-goods-action-icon icon="cart-o" text="购物车" :to="{ name: 'Cart' }" :badge="$store.state.carts.count" />
       <van-goods-action-button type="warning" text="加入购物车" @click="show = true" />
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
@@ -35,12 +35,13 @@
 import { getDetails, addCart } from "@/services/details";
 import { serveUrl } from "@/utils/request";
 import { Toast } from "vant";
+import { areaList } from '@vant/area-data';
 export default {
   name: "XiaomiMallDetail",
 
   data () {
     return {
-      areaList: {},
+      areaList,
       popupShow: false,
       count: this.$store.state.count,
       detail: [],

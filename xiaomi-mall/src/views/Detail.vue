@@ -5,42 +5,6 @@
     <img :src="detail.coverImage | dalImg" />
     <div class="content">
       <p>{{ detail.name }}</p>
-<<<<<<< HEAD
-      <div class="price">
-        <h3>￥{{ detail.price }}</h3>
-        <p>
-          ￥<span>{{ (detail.price + 100).toFixed(2) }}</span>
-        </p>
-        <p>直降100元</p>
-      </div>
-      <van-cell title="分期" is-link value="花呗分期/小米分期" />
-      <van-cell title="已选" is-link :value="detail.name" />
-      <van-cell title="送至" is-link value="北京市朝阳区" />
-      <p class="huan">支持七天无理由退换货</p>
-    </div>
-
-    <van-sku
-      v-model="show"
-      :sku="sku"
-      :goods="goods"
-      :goods-id="detail.id"
-      :hide-stock="sku.hide_stock"
-      @buy-clicked="onBuyClicked"
-      @add-cart="onAddCartClicked"
-    />
-    <van-goods-action>
-      <van-goods-action-icon icon="chat-o" text="客服" dot />
-      <van-goods-action-icon
-        icon="cart-o"
-        text="购物车"
-        :badge="count > 0 ? count : false"
-      />
-      <van-goods-action-button
-        type="warning"
-        text="加入购物车"
-        @click="show = true"
-      />
-=======
       <h3>￥{{ detail.price }}</h3>
       <van-area title="标题" :area-list="areaList" :columns-placeholder="['请选择', '请选择', '请选择']" />
     </div>
@@ -55,7 +19,6 @@
       <van-goods-action-icon icon="chat-o" text="客服" dot />
       <van-goods-action-icon icon="cart-o" text="购物车" :badge="badge" />
       <van-goods-action-button type="warning" text="加入购物车" @click="show = true" />
->>>>>>> 11b9428f44b5fb254405303bd7a5bb5079efecd8
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
     <van-popup v-model="popupShow">
@@ -75,15 +38,10 @@ import { Toast } from "vant";
 export default {
   name: "XiaomiMallDetail",
 
-<<<<<<< HEAD
-  data() {
-    return {
-=======
   data () {
     return {
       areaList: {},
       popupShow: false,
->>>>>>> 11b9428f44b5fb254405303bd7a5bb5079efecd8
       count: this.$store.state.count,
       detail: [],
       show: false,
@@ -130,13 +88,8 @@ export default {
     };
   },
 
-<<<<<<< HEAD
-  mounted() {},
-  created() {
-=======
   mounted () { },
   created () {
->>>>>>> 11b9428f44b5fb254405303bd7a5bb5079efecd8
     this.loadDetail(), this.loadCount();
   },
   methods: {
@@ -157,22 +110,6 @@ export default {
       this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage;
       this.goods.picture = serveUrl + this.detail.coverImage;
     },
-<<<<<<< HEAD
-    onClickLeft() {
-      this.$router.go(-1);
-    },
-    async onAddCartClicked(sku) {
-      const data = await addCart({
-        amount: sku.selectedNum,
-        price: sku.selectedSkuComb.price / 100,
-        product: sku.selectedSkuComb.id,
-      });
-      console.log(data);
-      if (data.data.code == 1) {
-        Toast("加入成功");
-        this.count = this.$store.state.count;
-        this.loadCount();
-=======
     onClickLeft () {
       this.$router.go(-1);
     },
@@ -191,17 +128,12 @@ export default {
           this.show = false;
         }
       } else {
->>>>>>> 11b9428f44b5fb254405303bd7a5bb5079efecd8
         this.show = false;
         this.popupShow = true
       }
 
     },
-<<<<<<< HEAD
-    onBuyClicked() {},
-=======
     onBuyClicked () { },
->>>>>>> 11b9428f44b5fb254405303bd7a5bb5079efecd8
   },
   computed: {
     badge () {

@@ -55,6 +55,8 @@
         <p></p>
       </div>
     </div>
+    <!-- 返回顶部 -->
+    <div @click="toTop" class="backTop">↑</div>
   </div>
 </template>
 
@@ -68,14 +70,19 @@ export default {
     return {
       banners: [],
       value: "",
+      page: 1,
       products: [],
-      token:''
+      token: '',
+      loading: false,
+      finished: false,
+      pages: 1,
     };
   },
   created () {
     this.loadBanner();
     this.loadProducts();
-    
+
+    // this.loadProducts();
   },
   methods: {
     toDetail (id) {
@@ -271,12 +278,17 @@ img {
   background-color: rgba(245, 197, 172, 1);
 }
 
-/* .hot .new{
-  display: flex;
-  flex-wrap: wrap;
+.backTop {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: rgb(240, 236, 236);
+  position: fixed;
+  right: 10px;
+  bottom: 70px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 20px;
+  font-weight: bold;
 }
-.hot .new .van-card{
-  width: 40%;
-  justify-content: space-around;
-} */
 </style>

@@ -174,6 +174,43 @@ img {
 
 .content h3 {
   color: rgba(255, 112, 58, 1);
-  margin: 5px 0;
+  /* margin: 5px 0; */
+}
+
+.price {
+  display: flex;
+  padding: 5px 0;
+  align-items: center;
+}
+
+.price p:nth-of-type(1) {
+  margin: 0 10px;
+  color: rgba(166, 166, 166, 1);
+  font-size: 14px;
+}
+
+.price span {
+  text-decoration: line-through;
+}
+
+.price p:nth-of-type(2) {
+  background-color: rgba(255, 112, 58, 1);
+  color: white;
+  padding: 3px;
+  font-size: 12px;
+}
+
+.van-cell {
+  padding: 5px;
+}
+
+.van-cell__value {
+  text-align: left;
+}
+
+.huan {
+  font-size: 12px;
+  color: rgba(128, 128, 128, 1);
+  margin: 5px 30px;
 }
 </style>

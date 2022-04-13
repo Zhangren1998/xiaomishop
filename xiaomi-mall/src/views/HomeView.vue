@@ -101,6 +101,14 @@ export default {
       this.products = resProducts.data.data;
       console.log(this.products);
     },
+    toTop () {
+      this.$nextTick(function () {
+        document.documentElement.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      })
+    }
   },
 };
 </script>

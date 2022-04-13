@@ -78,11 +78,19 @@ export default {
     onClickLeft () {
       this.$router.back()
     },
-    add (i) {
-      addCart({ product: i.product.id, amount: this.step, price: i.price })
+    async add (i) {
+      await addCart({ product: i.product.id, amount: this.step, price: i.price })
+      const res = await loadCartAPI()
+      this.list = res.data.data
+      console.log(this.list.reduce((pre, val) => pre * 1 + val.amount * 1, 0));
+      this.$store.state.carts.count = this.list.reduce((pre, val) => pre * 1 + val.amount * 1, 0)
     },
-    minus (i) {
-      addCart({ product: i.product.id, amount: -this.step, price: i.price })
+    async minus (i) {
+      await addCart({ product: i.product.id, amount: -this.step, price: i.price })
+      const res = await loadCartAPI()
+      this.list = res.data.data
+      console.log(this.list.reduce((pre, val) => pre * 1 + val.amount * 1, 0));
+      this.$store.state.carts.count = this.list.reduce((pre, val) => pre * 1 + val.amount * 1, 0)
     },
     onSubmit () { }
   },

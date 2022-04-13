@@ -69,11 +69,13 @@ export default {
       banners: [],
       value: "",
       products: [],
+      token:''
     };
   },
   created () {
     this.loadBanner();
     this.loadProducts();
+    
   },
   methods: {
     toDetail (id) {

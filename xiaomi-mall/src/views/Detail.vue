@@ -36,8 +36,12 @@
       <van-goods-action-icon
         icon="cart-o"
         text="购物车"
+<<<<<<< HEAD
         :badge="count"
         @click="toCart"
+=======
+        :badge="count > 0 ? count : false"
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
       />
       <van-goods-action-button
         type="warning"
@@ -50,12 +54,22 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { getDetails, addCart } from "@/services/details";
 import { serveUrl } from "@/utils/request";
 import { Toast } from "vant";
 import { areaList } from 'vant'
 export default {
   name: "XiaomiMallDetail",
+=======
+import { loadCartAPI } from "@/services/carts";
+import { getDetails, addCart } from "@/services/details";
+import { serveUrl } from "@/utils/request";
+import { Toast } from "vant";
+export default {
+  name: "XiaomiMallDetail",
+
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
   data() {
     return {
       areaList ,
@@ -106,6 +120,7 @@ export default {
 
   mounted() {},
   created() {
+<<<<<<< HEAD
     this.loadDetail();
   },
   methods: {
@@ -113,6 +128,21 @@ export default {
       const data = await getDetails(this.$route.params.id);
       this.detail = data.data.data;
       console.log(this.detail);
+=======
+    this.loadDetail(), this.loadCount();
+  },
+  methods: {
+    async loadCount() {
+      const data = await loadCartAPI();
+      this.count = data.data.data.reduce(
+        (pre, val) => pre * 1 + val.amount * 1,
+        0
+      );
+    },
+    async loadDetail() {
+      const data = await getDetails(this.$route.params.id);
+      this.detail = data.data.data;
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
       this.sku.list[0].price = this.detail.price * 100;
       this.sku.list[0].stock_num = this.detail.amount;
       this.sku.list[0].id = this.detail.id;
@@ -120,28 +150,46 @@ export default {
       this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage;
       this.goods.picture = serveUrl + this.detail.coverImage;
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
     onClickLeft() {
       this.$router.go(-1);
     },
     async onAddCartClicked(sku) {
+<<<<<<< HEAD
       console.log(sku);
+=======
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
       const data = await addCart({
         amount: sku.selectedNum,
         price: sku.selectedSkuComb.price / 100,
         product: sku.selectedSkuComb.id,
       });
+<<<<<<< HEAD
       console.log(data.data);
       if (data.data.code == 1) {
         Toast("加入成功");
+=======
+      console.log(data);
+      if (data.data.code == 1) {
+        Toast("加入成功");
+        this.count = this.$store.state.count;
+        this.loadCount();
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
         this.show = false;
       }
     },
     onBuyClicked() {},
+<<<<<<< HEAD
     toCart() {
       this.$router.push({
         name: "Cart",
       });
     },
+=======
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
   },
 };
 </script>

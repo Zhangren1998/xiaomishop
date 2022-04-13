@@ -77,12 +77,15 @@ export default {
     this.loadProducts();
   },
   methods: {
+<<<<<<< HEAD
     toDetail(id) {
       this.$router.push({
         name: "Detail",
         params: { id },
       });
     },
+=======
+>>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
     async loadBanner() {
       const banner = await loadBanners();
       this.banners = banner.data;

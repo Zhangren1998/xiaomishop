@@ -27,8 +27,7 @@
             </template>
             <template #price>
               <p class="price">
-                ￥<span>{{ item.price }}</span
-                >起
+                ￥<span>{{ item.price }}</span>起
               </p>
             </template>
             <template #footer>
@@ -65,33 +64,30 @@ import { loadBanners } from "@/services/banner.js";
 import { loadProducts } from "@/services/products.js";
 export default {
   name: "Home",
-  data() {
+  data () {
     return {
       banners: [],
       value: "",
       products: [],
     };
   },
-  created() {
+  created () {
     this.loadBanner();
     this.loadProducts();
   },
   methods: {
-<<<<<<< HEAD
-    toDetail(id) {
+    toDetail (id) {
       this.$router.push({
         name: "Detail",
         params: { id },
       });
     },
-=======
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
-    async loadBanner() {
+    async loadBanner () {
       const banner = await loadBanners();
       this.banners = banner.data;
       console.log(this.banners);
     },
-    async loadProducts() {
+    async loadProducts () {
       const resProducts = await loadProducts();
       this.products = resProducts.data.data;
       console.log(this.products);
@@ -129,7 +125,6 @@ img {
 
 .van-col {
   margin-bottom: 10px;
-  height: 264px;
 }
 
 .van-card {

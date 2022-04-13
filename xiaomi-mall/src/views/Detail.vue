@@ -1,67 +1,36 @@
 <template>
   <div id="detail">
-    <van-nav-bar
-      :title="detail.name"
-      left-text="返回"
-      left-arrow
-      @click-left="onClickLeft"
-    />
+    <van-nav-bar :title="detail.name" left-text="返回" left-arrow @click-left="onClickLeft" />
 
     <img :src="detail.coverImage | dalImg" />
     <div class="content">
       <p>{{ detail.name }}</p>
       <h3>￥{{ detail.price }}</h3>
-      <van-area
-        title="标题"
-        :area-list="areaList"
-        :columns-placeholder="['请选择', '请选择', '请选择']"
-      />
+      <van-area title="标题" :area-list="areaList" :columns-placeholder="['请选择', '请选择', '请选择']" />
     </div>
     <!-- <van-cell-group inset>
       <van-cell :title="detail.name" :label="描述信息" />
       <van-cell :value="detail.desc" />
     </van-cell-group> -->
     <!-- <button @click="show = true">点击购买</button> -->
-    <van-sku
-      v-model="show"
-      :sku="sku"
-      :goods="goods"
-      :goods-id="detail.id"
-      :hide-stock="sku.hide_stock"
-      @buy-clicked="onBuyClicked"
-      @add-cart="onAddCartClicked"
-    />
+    <van-sku v-model="show" :sku="sku" :goods="goods" :goods-id="detail.id" :hide-stock="sku.hide_stock"
+      @buy-clicked="onBuyClicked" @add-cart="onAddCartClicked" />
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" dot />
-      <van-goods-action-icon
-        icon="cart-o"
-        text="购物车"
-<<<<<<< HEAD
-        :badge="count"
-        @click="toCart"
-=======
-        :badge="count > 0 ? count : false"
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
-      />
-      <van-goods-action-button
-        type="warning"
-        text="加入购物车"
-        @click="show = true"
-      />
+      <van-goods-action-icon icon="cart-o" text="购物车" :badge="badge" />
+      <van-goods-action-button type="warning" text="加入购物车" @click="show = true" />
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
+    <van-popup v-model="popupShow">
+      <span>您还没有登录</span>
+      <router-link :to="{ name: 'Login' }">
+        去登录？
+      </router-link>
+    </van-popup>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-import { getDetails, addCart } from "@/services/details";
-import { serveUrl } from "@/utils/request";
-import { Toast } from "vant";
-import { areaList } from 'vant'
-export default {
-  name: "XiaomiMallDetail",
-=======
 import { loadCartAPI } from "@/services/carts";
 import { getDetails, addCart } from "@/services/details";
 import { serveUrl } from "@/utils/request";
@@ -69,13 +38,14 @@ import { Toast } from "vant";
 export default {
   name: "XiaomiMallDetail",
 
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
-  data() {
+  data () {
     return {
-      areaList ,
+      areaList: {},
+      popupShow: false,
       count: this.$store.state.count,
       detail: [],
       show: false,
+      token: '',
       sku: {
         // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
         // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
@@ -118,31 +88,21 @@ export default {
     };
   },
 
-  mounted() {},
-  created() {
-<<<<<<< HEAD
-    this.loadDetail();
-  },
-  methods: {
-    async loadDetail() {
-      const data = await getDetails(this.$route.params.id);
-      this.detail = data.data.data;
-      console.log(this.detail);
-=======
+  mounted () { },
+  created () {
     this.loadDetail(), this.loadCount();
   },
   methods: {
-    async loadCount() {
+    async loadCount () {
       const data = await loadCartAPI();
       this.count = data.data.data.reduce(
         (pre, val) => pre * 1 + val.amount * 1,
         0
       );
     },
-    async loadDetail() {
+    async loadDetail () {
       const data = await getDetails(this.$route.params.id);
       this.detail = data.data.data;
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
       this.sku.list[0].price = this.detail.price * 100;
       this.sku.list[0].stock_num = this.detail.amount;
       this.sku.list[0].id = this.detail.id;
@@ -150,47 +110,44 @@ export default {
       this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage;
       this.goods.picture = serveUrl + this.detail.coverImage;
     },
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
-    onClickLeft() {
+    onClickLeft () {
       this.$router.go(-1);
     },
-    async onAddCartClicked(sku) {
-<<<<<<< HEAD
-      console.log(sku);
-=======
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
-      const data = await addCart({
-        amount: sku.selectedNum,
-        price: sku.selectedSkuComb.price / 100,
-        product: sku.selectedSkuComb.id,
-      });
-<<<<<<< HEAD
-      console.log(data.data);
-      if (data.data.code == 1) {
-        Toast("加入成功");
-=======
-      console.log(data);
-      if (data.data.code == 1) {
-        Toast("加入成功");
-        this.count = this.$store.state.count;
-        this.loadCount();
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
+    async onAddCartClicked (sku) {
+      if (sessionStorage.getItem('token')) {
+        const data = await addCart({
+          amount: sku.selectedNum,
+          price: sku.selectedSkuComb.price / 100,
+          product: sku.selectedSkuComb.id,
+        });
+        console.log(data);
+        if (data.data.code == 1) {
+          Toast("加入成功");
+          this.count = this.$store.state.count;
+          this.loadCount();
+          this.show = false;
+        }
+      } else {
         this.show = false;
+        this.popupShow = true
       }
+
     },
-    onBuyClicked() {},
-<<<<<<< HEAD
-    toCart() {
-      this.$router.push({
-        name: "Cart",
-      });
-    },
-=======
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
+    onBuyClicked () { },
   },
+  computed: {
+    badge () {
+      if (sessionStorage.getItem('token')) {
+        if (this.$store.state.count > 0) {
+          return this.$store.state.count
+        } else {
+          return ''
+        }
+      } else {
+        return ''
+      }
+    }
+  }
 };
 </script>
 
@@ -208,10 +165,12 @@ export default {
 img {
   width: 100vw !important;
 }
+
 .content {
   width: 100vw;
   padding: 5px 15px;
 }
+
 .content h3 {
   color: rgba(255, 112, 58, 1);
   margin: 5px 0;

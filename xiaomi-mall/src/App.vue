@@ -1,14 +1,5 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-    <router-view class="main"></router-view>
-    <van-tabbar :route="true" active-color="rgba(255, 112, 58, 1)" v-model="active" v-show="isShow" :fixed="false" class="main-nav">
-      <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
-      <van-tabbar-item icon="search" :to="{ name: 'List' }">分类</van-tabbar-item>
-      <van-tabbar-item icon="shop" :to="{ name: 'News' }">发现</van-tabbar-item>
-      <van-tabbar-item icon="shopping-cart" :to="{ name: 'Cart' }">购物车</van-tabbar-item>
-      <van-tabbar-item icon="manager" :to="{ name: 'User' }">我的</van-tabbar-item>
-=======
     <router-view class="view" />
     <div style="height: 5rem" class="box"></div>
     <van-tabbar
@@ -28,7 +19,6 @@
       <van-tabbar-item icon="user-o" :to="{ name: 'User' }"
         >我的</van-tabbar-item
       >
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
     </van-tabbar>
   </div>
 </template>

@@ -10,18 +10,19 @@
     <img :src="detail.coverImage | dalImg" />
     <div class="content">
       <p>{{ detail.name }}</p>
-      <h3>￥{{ detail.price }}</h3>
-      <van-area
-        title="标题"
-        :area-list="areaList"
-        :columns-placeholder="['请选择', '请选择', '请选择']"
-      />
+      <div class="price">
+        <h3>￥{{ detail.price }}</h3>
+        <p>
+          ￥<span>{{ (detail.price + 100).toFixed(2) }}</span>
+        </p>
+        <p>直降100元</p>
+      </div>
+      <van-cell title="分期" is-link value="花呗分期/小米分期" />
+      <van-cell title="已选" is-link :value="detail.name" />
+      <van-cell title="送至" is-link value="北京市朝阳区" />
+      <p class="huan">支持七天无理由退换货</p>
     </div>
-    <!-- <van-cell-group inset>
-      <van-cell :title="detail.name" :label="描述信息" />
-      <van-cell :value="detail.desc" />
-    </van-cell-group> -->
-    <!-- <button @click="show = true">点击购买</button> -->
+
     <van-sku
       v-model="show"
       :sku="sku"
@@ -36,12 +37,7 @@
       <van-goods-action-icon
         icon="cart-o"
         text="购物车"
-<<<<<<< HEAD
-        :badge="count"
-        @click="toCart"
-=======
         :badge="count > 0 ? count : false"
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
       />
       <van-goods-action-button
         type="warning"
@@ -54,14 +50,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { getDetails, addCart } from "@/services/details";
-import { serveUrl } from "@/utils/request";
-import { Toast } from "vant";
-import { areaList } from 'vant'
-export default {
-  name: "XiaomiMallDetail",
-=======
 import { loadCartAPI } from "@/services/carts";
 import { getDetails, addCart } from "@/services/details";
 import { serveUrl } from "@/utils/request";
@@ -69,10 +57,8 @@ import { Toast } from "vant";
 export default {
   name: "XiaomiMallDetail",
 
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
   data() {
     return {
-      areaList ,
       count: this.$store.state.count,
       detail: [],
       show: false,
@@ -120,15 +106,6 @@ export default {
 
   mounted() {},
   created() {
-<<<<<<< HEAD
-    this.loadDetail();
-  },
-  methods: {
-    async loadDetail() {
-      const data = await getDetails(this.$route.params.id);
-      this.detail = data.data.data;
-      console.log(this.detail);
-=======
     this.loadDetail(), this.loadCount();
   },
   methods: {
@@ -142,7 +119,6 @@ export default {
     async loadDetail() {
       const data = await getDetails(this.$route.params.id);
       this.detail = data.data.data;
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
       this.sku.list[0].price = this.detail.price * 100;
       this.sku.list[0].stock_num = this.detail.amount;
       this.sku.list[0].id = this.detail.id;
@@ -150,46 +126,24 @@ export default {
       this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage;
       this.goods.picture = serveUrl + this.detail.coverImage;
     },
-<<<<<<< HEAD
-=======
-
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
     onClickLeft() {
       this.$router.go(-1);
     },
     async onAddCartClicked(sku) {
-<<<<<<< HEAD
-      console.log(sku);
-=======
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
       const data = await addCart({
         amount: sku.selectedNum,
         price: sku.selectedSkuComb.price / 100,
         product: sku.selectedSkuComb.id,
       });
-<<<<<<< HEAD
-      console.log(data.data);
-      if (data.data.code == 1) {
-        Toast("加入成功");
-=======
       console.log(data);
       if (data.data.code == 1) {
         Toast("加入成功");
         this.count = this.$store.state.count;
         this.loadCount();
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
         this.show = false;
       }
     },
     onBuyClicked() {},
-<<<<<<< HEAD
-    toCart() {
-      this.$router.push({
-        name: "Cart",
-      });
-    },
-=======
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
   },
 };
 </script>
@@ -214,6 +168,36 @@ img {
 }
 .content h3 {
   color: rgba(255, 112, 58, 1);
-  margin: 5px 0;
+  /* margin: 5px 0; */
+}
+.price {
+  display: flex;
+  padding: 5px 0;
+  align-items: center;
+}
+.price p:nth-of-type(1) {
+  margin: 0 10px;
+  color: rgba(166, 166, 166, 1);
+  font-size: 14px;
+}
+.price span {
+  text-decoration: line-through;
+}
+.price p:nth-of-type(2) {
+  background-color: rgba(255, 112, 58, 1);
+  color: white;
+  padding: 3px;
+  font-size: 12px;
+}
+.van-cell {
+  padding: 5px;
+}
+.van-cell__value {
+  text-align: left;
+}
+.huan {
+  font-size: 12px;
+  color: rgba(128, 128, 128, 1);
+  margin: 5px 30px;
 }
 </style>

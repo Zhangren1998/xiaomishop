@@ -13,30 +13,38 @@
     <div class="hot">
       <h3>热卖爆品，火热感恩</h3>
       <p>千元全面屏现货抢</p>
-      <van-row type="flex" justify="space-around">
-        <van-col span="11" v-for="item in products" :key="item.id">
-          <van-card tag="新品热卖">
-            <template #thumb>
-              <img :src="item.coverImage | dalImg" alt="item.name" />
-            </template>
-            <template #title>
-              <h4>{{ item.name }}</h4>
-            </template>
-            <template #desc>
-              <p class="desc">描述信息</p>
-            </template>
-            <template #price>
-              <p class="price">
-                ￥<span>{{ item.price }}</span
-                >起
-              </p>
-            </template>
-            <template #footer>
-              <van-button @click="toDetail(item.id)">立即购买</van-button>
-            </template>
-          </van-card>
-        </van-col>
-      </van-row>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="loadProducts"
+        class="content"
+      >
+        <van-row type="flex" justify="space-around">
+          <van-col span="11" v-for="item in products" :key="item.id">
+            <van-card tag="新品热卖">
+              <template #thumb>
+                <img :src="item.coverImage | dalImg" alt="item.name" />
+              </template>
+              <template #title>
+                <h4>{{ item.name }}</h4>
+              </template>
+              <template #desc>
+                <p class="desc">描述信息</p>
+              </template>
+              <template #price>
+                <p class="price">
+                  ￥<span>{{ item.price }}</span
+                  >起
+                </p>
+              </template>
+              <template #footer>
+                <van-button @click="toDetail(item.id)">立即购买</van-button>
+              </template>
+            </van-card>
+          </van-col>
+        </van-row>
+      </van-list>
 
       <div class="huasuan">
         <h4>感恩节必读省钱攻略怎么买最划算<a href=""></a></h4>
@@ -56,6 +64,8 @@
         <p></p>
       </div>
     </div>
+    <!-- 返回顶部 -->
+    <div @click="toTop" class="backTop">↑</div>
   </div>
 </template>
 
@@ -69,32 +79,43 @@ export default {
     return {
       banners: [],
       value: "",
+      page: 1,
       products: [],
+      loading: false,
+      finished: false,
+      pages: 1,
     };
   },
   created() {
     this.loadBanner();
-    this.loadProducts();
+    // this.loadProducts();
   },
   methods: {
-<<<<<<< HEAD
-    toDetail(id) {
-      this.$router.push({
-        name: "Detail",
-        params: { id },
-      });
-    },
-=======
->>>>>>> 5f7ea8cfd79ddedc76f6d96595753034fe4eddbd
     async loadBanner() {
       const banner = await loadBanners();
       this.banners = banner.data;
       console.log(this.banners);
     },
     async loadProducts() {
-      const resProducts = await loadProducts();
-      this.products = resProducts.data.data;
-      console.log(this.products);
+      const resProducts = await loadProducts(this.page);
+      // this.products = resProducts.data.data;
+      this.page++, (this.pages = resProducts.pages);
+      this.products.push(...resProducts.data.data);
+      if (this.page > this.pages) {
+        this.finished = true;
+      }
+    },
+    toDetail(id) {
+      this.$router.push({
+        name: "Detail",
+        params: {
+          id,
+        },
+      });
+    },
+    toTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     },
   },
 };
@@ -274,12 +295,17 @@ img {
   background-color: rgba(245, 197, 172, 1);
 }
 
-/* .hot .new{
-  display: flex;
-  flex-wrap: wrap;
+.backTop {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  background-color: rgb(240, 236, 236);
+  position: fixed;
+  right: 10px;
+  bottom: 70px;
+  text-align: center;
+  line-height: 30px;
+  font-size: 20px;
+  font-weight: bold;
 }
-.hot .new .van-card{
-  width: 40%;
-  justify-content: space-around;
-} */
 </style>

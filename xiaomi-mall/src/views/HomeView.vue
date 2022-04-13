@@ -27,37 +27,17 @@
             </template>
             <template #price>
               <p class="price">
-                ￥<span>{{ item.price }}</span>起
+                ￥<span>{{ item.price }}</span
+                >起
               </p>
             </template>
             <template #footer>
-              <van-button>立即购买</van-button>
+              <van-button @click="toDetail(item.id)">立即购买</van-button>
             </template>
           </van-card>
         </van-col>
       </van-row>
-      <!-- <div class="new">
-        <van-card v-for="item in products" :key="item.id" tag="新品热卖">
-          <template #thumb>
-            <img :src="item.coverImage | dalImg" alt="item.name" />
-          </template>
-          <template #title>
-            <h3>{{ item.name }}</h3>
-          </template>
-          <template #desc>
-            <p class="desc">描述信息</p>
-          </template>
-          <template #price>
-            <p class="price">
-              ￥<span>{{ item.price }}</span
-              >起
-            </p>
-          </template>
-          <template #footer>
-            <van-button>立即购买</van-button>
-          </template>
-        </van-card>
-      </div> -->
+
       <div class="huasuan">
         <h4>感恩节必读省钱攻略怎么买最划算<a href=""></a></h4>
       </div>
@@ -85,24 +65,30 @@ import { loadBanners } from "@/services/banner.js";
 import { loadProducts } from "@/services/products.js";
 export default {
   name: "Home",
-  data () {
+  data() {
     return {
       banners: [],
       value: "",
       products: [],
     };
   },
-  created () {
+  created() {
     this.loadBanner();
     this.loadProducts();
   },
   methods: {
-    async loadBanner () {
+    toDetail(id) {
+      this.$router.push({
+        name: "Detail",
+        params: { id },
+      });
+    },
+    async loadBanner() {
       const banner = await loadBanners();
       this.banners = banner.data;
       console.log(this.banners);
     },
-    async loadProducts () {
+    async loadProducts() {
       const resProducts = await loadProducts();
       this.products = resProducts.data.data;
       console.log(this.products);

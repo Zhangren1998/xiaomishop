@@ -1,33 +1,64 @@
 <template>
   <div id="detail">
-    <van-nav-bar :title="detail.name" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar
+      :title="detail.name"
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
 
-    <img :src="detail.coverImage | dalImg" alt />
-    <van-cell-group inset>
-      <van-cell :title="detail.name" label="描述信息" />
+    <img :src="detail.coverImage | dalImg" />
+    <div class="content">
+      <p>{{ detail.name }}</p>
+      <h3>￥{{ detail.price }}</h3>
+      <van-area
+        title="标题"
+        :area-list="areaList"
+        :columns-placeholder="['请选择', '请选择', '请选择']"
+      />
+    </div>
+    <!-- <van-cell-group inset>
+      <van-cell :title="detail.name" :label="描述信息" />
       <van-cell :value="detail.desc" />
-    </van-cell-group>
+    </van-cell-group> -->
     <!-- <button @click="show = true">点击购买</button> -->
-    <van-sku v-model="show" :sku="sku" :goods="goods" :goods-id="detail.id" :hide-stock="sku.hide_stock"
-      @buy-clicked="onBuyClicked" @add-cart="onAddCartClicked" />
+    <van-sku
+      v-model="show"
+      :sku="sku"
+      :goods="goods"
+      :goods-id="detail.id"
+      :hide-stock="sku.hide_stock"
+      @buy-clicked="onBuyClicked"
+      @add-cart="onAddCartClicked"
+    />
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" dot />
-      <van-goods-action-icon icon="cart-o" text="购物车" :badge="count" />
-      <van-goods-action-button type="warning" text="加入购物车" @click="show = true" />
+      <van-goods-action-icon
+        icon="cart-o"
+        text="购物车"
+        :badge="count"
+        @click="toCart"
+      />
+      <van-goods-action-button
+        type="warning"
+        text="加入购物车"
+        @click="show = true"
+      />
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
   </div>
 </template>
 
 <script>
-import { getDetails, addCart } from '@/services/details'
-import { serveUrl } from '@/utils/request'
-import { Toast } from 'vant';
+import { getDetails, addCart } from "@/services/details";
+import { serveUrl } from "@/utils/request";
+import { Toast } from "vant";
+import { areaList } from 'vant'
 export default {
-  name: 'XiaomiMallDetail',
-
-  data () {
+  name: "XiaomiMallDetail",
+  data() {
     return {
+      areaList ,
       count: this.$store.state.count,
       detail: [],
       show: false,
@@ -36,80 +67,86 @@ export default {
         // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
         tree: [
           {
-            k: '颜色', // skuKeyName：规格类目名称
-            k_s: 's1', // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
+            k: "颜色", // skuKeyName：规格类目名称
+            k_s: "s1", // skuKeyStr：sku 组合列表（下方 list）中当前类目对应的 key 值，value 值会是从属于当前类目的一个规格值 id
             v: [
               {
-                id: '1', // skuValueId：规格值 id
-                name: '红色', // skuValueName：规格值名称
-                imgUrl: 'https://img01.yzcdn.cn/1.jpg', // 规格类目图片，只有第一个规格类目可以定义图片
-                previewImgUrl: 'https://img01.yzcdn.cn/1p.jpg', // 用于预览显示的规格类目图片
+                id: "1", // skuValueId：规格值 id
+                name: "红色", // skuValueName：规格值名称
+                imgUrl: "https://img01.yzcdn.cn/1.jpg", // 规格类目图片，只有第一个规格类目可以定义图片
+                previewImgUrl: "https://img01.yzcdn.cn/1p.jpg", // 用于预览显示的规格类目图片
               },
             ],
             largeImageMode: true, //  是否展示大图模式
-          }
+          },
         ],
         // 所有 sku 的组合列表，比如红色、M 码为一个 sku 组合，红色、S 码为另一个组合
         list: [
           {
             id: 2259, // skuId
-            s1: '1', // 规格类目 k_s 为 s1 的对应规格值 id
-            s2: '1', // 规格类目 k_s 为 s2 的对应规格值 id
+            s1: "1", // 规格类目 k_s 为 s1 的对应规格值 id
+            s2: "1", // 规格类目 k_s 为 s2 的对应规格值 id
             price: 100, // 价格（单位分）
-            stock_num: 110 // 当前 sku 组合对应的库存
-          }
+            stock_num: 110, // 当前 sku 组合对应的库存
+          },
         ],
-        price: '1.00', // 默认价格（单位元）
+        price: "1.00", // 默认价格（单位元）
         stock_num: 227, // 商品总库存
         collection_id: 2261, // 无规格商品 skuId 取 collection_id，否则取所选 sku 组合对应的 id
         none_sku: false, // 是否无规格商品
 
-        hide_stock: false // 是否隐藏剩余库存
+        hide_stock: false, // 是否隐藏剩余库存
       },
       goods: {
         // 默认商品 sku 缩略图
-        picture: ""
+        picture: "",
       },
-
     };
   },
 
-  mounted () {
-
-  },
-  created () {
-    this.loadDetail()
+  mounted() {},
+  created() {
+    this.loadDetail();
   },
   methods: {
-    async loadDetail () {
+    async loadDetail() {
       const data = await getDetails(this.$route.params.id);
-      this.detail = data.data.data
+      this.detail = data.data.data;
       console.log(this.detail);
       this.sku.list[0].price = this.detail.price * 100;
-      this.sku.list[0].stock_num = this.detail.amount
-      this.sku.list[0].id = this.detail.id
-      this.sku.tree[0].v[0].imgUrl = serveUrl + this.detail.coverImage
-      this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage
-      this.goods.picture = serveUrl + this.detail.coverImage
+      this.sku.list[0].stock_num = this.detail.amount;
+      this.sku.list[0].id = this.detail.id;
+      this.sku.tree[0].v[0].imgUrl = serveUrl + this.detail.coverImage;
+      this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage;
+      this.goods.picture = serveUrl + this.detail.coverImage;
     },
-    onClickLeft () {
-      this.$router.go(-1)
+    onClickLeft() {
+      this.$router.go(-1);
     },
-    async onAddCartClicked (sku) {
+    async onAddCartClicked(sku) {
       console.log(sku);
-      const data = await addCart({ amount: sku.selectedNum, price: sku.selectedSkuComb.price / 100, product: sku.selectedSkuComb.id })
+      const data = await addCart({
+        amount: sku.selectedNum,
+        price: sku.selectedSkuComb.price / 100,
+        product: sku.selectedSkuComb.id,
+      });
       console.log(data.data);
       if (data.data.code == 1) {
-        Toast('加入成功')
-        this.show = false
+        Toast("加入成功");
+        this.show = false;
       }
     },
-    onBuyClicked () { }
+    onBuyClicked() {},
+    toCart() {
+      this.$router.push({
+        name: "Cart",
+      });
+    },
   },
 };
 </script>
 
-<style  scoped>
+<style scoped>
 .detail {
   width: 100%;
   display: flex;
@@ -122,5 +159,13 @@ export default {
 
 img {
   width: 100vw !important;
+}
+.content {
+  width: 100vw;
+  padding: 5px 15px;
+}
+.content h3 {
+  color: rgba(255, 112, 58, 1);
+  margin: 5px 0;
 }
 </style>

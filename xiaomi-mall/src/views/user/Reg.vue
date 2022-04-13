@@ -1,6 +1,11 @@
 <template>
   <div>
-    <van-nav-bar title="注册" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar
+      title="注册"
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
     <van-form @submit="onSubmit">
       <van-field name="uploader" label="请选择头像">
         <template #input>
@@ -15,30 +20,61 @@
           </van-radio-group>
         </template>
       </van-field>
-      <van-field v-model="nickName" name="昵称" label="昵称" placeholder="昵称"
-        :rules="[{ required: true, message: '请填写昵称' }]" />
-      <van-field v-model="username" name="用户名" label="用户名" placeholder="用户名"
-        :rules="[{ required: true, message: '请填写用户名' }]" />
-      <van-field v-model="password" type="password" name="密码" label="密码" placeholder="密码"
-        :rules="[{ required: true, message: '请填写密码' }]" />
-      <van-field v-model="confirmPassword" type="password" name="确认密码" label="确认密码" placeholder="确认密码"
-        :rules="[{ required: true, message: '请确认密码' }]" />
-      <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit">注册</van-button>
+      <van-field
+        v-model="nickName"
+        name="昵称"
+        label="昵称"
+        placeholder="昵称"
+        :rules="[{ required: true, message: '请填写昵称' }]"
+      />
+      <van-field
+        v-model="username"
+        name="用户名"
+        label="用户名"
+        placeholder="用户名"
+        :rules="[
+          {
+            pattern,
+            message: '6-18个字符，可使用数字字母下划线组成，必须字母开头',
+          },
+        ]"
+      />
+      <van-field
+        v-model="password"
+        type="password"
+        name="密码"
+        label="密码"
+        placeholder="密码"
+        :rules="[{ validator, message: '密码格式错误' }]"
+      />
+      <van-field
+        v-model="confirmPassword"
+        type="password"
+        name="确认密码"
+        label="确认密码"
+        placeholder="确认密码"
+        :rules="[{ required: true, message: '请确认密码' }]"
+      />
+      <div style="margin: 16px">
+        <van-button round block type="info" native-type="submit"
+          >注册</van-button
+        >
       </div>
     </van-form>
-    <router-link class="a-link" :to="{ name: 'Login' }">已有账号？点击登录</router-link>
+    <router-link class="a-link" :to="{ name: 'Login' }"
+      >已有账号？点击登录</router-link
+    >
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import { reg, upFile } from '@/services/user/reg';
-import { Toast } from 'vant';
+import { reg, upFile } from "@/services/user/reg";
+import { Toast } from "vant";
 export default {
   name: "XiaomiMallReg",
 
-  data () {
+  data() {
     return {
       username: "",
       password: "",
@@ -48,28 +84,37 @@ export default {
       nickName: "",
       radio: "男",
       pattern: /^[a-zA-Z]\w{5,17}$/,
-      fileData: ''
+      fileData: "",
     };
   },
 
-  mounted () { },
+  mounted() {},
 
   methods: {
-    async afterRead (file) {
+    async afterRead(file) {
       // 此时可以自行将文件上传至服务器
-      const formData = new FormData()
-      formData.append('file', file.file)
-      const upFileRes = await upFile(formData)
+      const formData = new FormData();
+      formData.append("file", file.file);
+      const upFileRes = await upFile(formData);
       if (upFileRes.data.code == 1) {
-        this.fileData = upFileRes.data.data
+        this.fileData = upFileRes.data.data;
       } else {
-        Toast('上传头像失败')
+        Toast("上传头像失败");
       }
     },
-    async onSubmit () {
-      if (this.username && this.password && this.password == this.confirmPassword) {
-
-        reg({ userName: this.username, password: this.password, avatar: this.fileData, nickName: this.nickName, gender: this.radio }).then(res => {
+    async onSubmit() {
+      if (
+        this.username &&
+        this.password &&
+        this.password == this.confirmPassword
+      ) {
+        reg({
+          userName: this.username,
+          password: this.password,
+          avatar: this.fileData,
+          nickName: this.nickName,
+          gender: this.radio,
+        }).then((res) => {
           console.log(res.data);
           sessionStorage.setItem("token", res.data.data);
           this.$router.push("/");
@@ -82,10 +127,11 @@ export default {
         Toast("帐号密码不能为空");
       }
     },
-    onClickLeft () {
-      this.$router.back;
+    onClickLeft() {
+      // this.$router.back;
+      this.$router.go(-1);
     },
-    validator (val) {
+    validator(val) {
       return /^\w{6,25}$/.test(val);
     },
   },

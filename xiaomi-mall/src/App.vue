@@ -2,14 +2,9 @@
   <div id="app">
     <router-view class="view" />
     <div style="height: 5rem" class="box"></div>
-    <van-tabbar
-      :route="true"
-      active-color="#1989fa"
-      v-model="active"
-      v-show="isShow"
-      class="main-nav"
-    >
+    <van-tabbar :route="true" active-color="#1989fa" v-model="active" v-show="isShow" class="main-nav">
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
+<<<<<<< HEAD
       <van-tabbar-item icon="shop-o" :to="{ name: 'List' }"
         >分类</van-tabbar-item
       >
@@ -19,6 +14,11 @@
       <van-tabbar-item icon="user-o" :to="{ name: 'User' }"
         >我的</van-tabbar-item
       >
+=======
+      <van-tabbar-item icon="shop-o" :to="{ name: 'List' }">分类</van-tabbar-item>
+      <van-tabbar-item icon="shopping-cart-o" :to="{ name: 'Cart' }">购物车</van-tabbar-item>
+      <van-tabbar-item icon="user-o" :to="{ name: 'User' }">我的</van-tabbar-item>
+>>>>>>> 11b9428f44b5fb254405303bd7a5bb5079efecd8
     </van-tabbar>
   </div>
 </template>
@@ -26,17 +26,17 @@
 export default {
   name: "XiaomiMallApp",
 
-  data() {
+  data () {
     return {
       active: 0,
     };
   },
 
-  mounted() {},
+  mounted () { },
 
   methods: {},
   computed: {
-    isShow() {
+    isShow () {
       if (this.$route.meta.tabHide) {
         return false;
       } else {
@@ -95,14 +95,17 @@ body,
   margin-left: 8px;
   color: #e26a3c;
 }
+
 .info {
   position: relative;
 }
+
 #news {
   position: absolute;
   right: 5vw;
   top: 5vh;
 }
+
 img {
   max-width: 100%;
 }

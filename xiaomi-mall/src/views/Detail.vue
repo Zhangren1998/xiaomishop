@@ -1,32 +1,56 @@
 <template>
   <div id="detail">
-    <van-nav-bar :title="detail.name" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar
+      :title="detail.name"
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
 
     <img :src="detail.coverImage | dalImg" />
     <div class="content">
       <p>{{ detail.name }}</p>
-      <h3>￥{{ detail.price }}</h3>
-      <van-area title="标题" :area-list="areaList" :columns-placeholder="['请选择', '请选择', '请选择']" />
+      <div class="price">
+        <h3>￥{{ detail.price }}</h3>
+        <p>
+          ￥<span>{{ (detail.price + 100).toFixed(2) }}</span>
+        </p>
+        <p>直降100元</p>
+      </div>
+      <van-cell title="分期" is-link value="花呗分期/小米分期" />
+      <van-cell title="已选" is-link :value="detail.name" />
+      <van-cell title="送至" is-link value="北京市朝阳区" />
+      <p class="huan">支持7天退换货</p>
     </div>
-    <!-- <van-cell-group inset>
-      <van-cell :title="detail.name" :label="描述信息" />
-      <van-cell :value="detail.desc" />
-    </van-cell-group> -->
-    <!-- <button @click="show = true">点击购买</button> -->
-    <van-sku v-model="show" :sku="sku" :goods="goods" :goods-id="detail.id" :hide-stock="sku.hide_stock"
-      @buy-clicked="onBuyClicked" @add-cart="onAddCartClicked" />
+
+    <van-sku
+      v-model="show"
+      :sku="sku"
+      :goods="goods"
+      :goods-id="detail.id"
+      :hide-stock="sku.hide_stock"
+      @buy-clicked="onBuyClicked"
+      @add-cart="onAddCartClicked"
+    />
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" dot />
       <!-- <van-goods-action-icon icon="cart-o" text="购物车" :badge="badge" /> -->
-      <van-goods-action-icon icon="cart-o" text="购物车" :to="{ name: 'Cart' }" :badge="$store.state.carts.count" />
-      <van-goods-action-button type="warning" text="加入购物车" @click="show = true" />
+      <van-goods-action-icon
+        icon="cart-o"
+        text="购物车"
+        :to="{ name: 'Cart' }"
+        :badge="$store.state.carts.count"
+      />
+      <van-goods-action-button
+        type="warning"
+        text="加入购物车"
+        @click="show = true"
+      />
       <van-goods-action-button type="danger" text="立即购买" />
     </van-goods-action>
     <van-popup v-model="popupShow">
       <span>您还没有登录</span>
-      <router-link :to="{ name: 'Login' }">
-        去登录？
-      </router-link>
+      <router-link :to="{ name: 'Login' }"> 去登录？ </router-link>
     </van-popup>
   </div>
 </template>
@@ -35,18 +59,18 @@
 import { getDetails, addCart } from "@/services/details";
 import { serveUrl } from "@/utils/request";
 import { Toast } from "vant";
-import { areaList } from '@vant/area-data';
+import { areaList } from "@vant/area-data";
 export default {
   name: "XiaomiMallDetail",
 
-  data () {
+  data() {
     return {
       areaList,
       popupShow: false,
       count: this.$store.state.count,
       detail: [],
       show: false,
-      token: '',
+      token: "",
       sku: {
         // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
         // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
@@ -88,9 +112,9 @@ export default {
       },
     };
   },
-  mounted () { },
-  created () {
-    this.loadDetail()
+  mounted() {},
+  created() {
+    this.loadDetail();
   },
   methods: {
     // async loadCount () {
@@ -100,7 +124,7 @@ export default {
     //     0
     //   );
     // },
-    async loadDetail () {
+    async loadDetail() {
       const data = await getDetails(this.$route.params.id);
       this.detail = data.data.data;
       this.sku.list[0].price = this.detail.price * 100;
@@ -110,11 +134,11 @@ export default {
       this.sku.tree[0].v[0].previewImgUrl = serveUrl + this.detail.coverImage;
       this.goods.picture = serveUrl + this.detail.coverImage;
     },
-    onClickLeft () {
+    onClickLeft() {
       this.$router.go(-1);
     },
-    async onAddCartClicked (sku) {
-      if (sessionStorage.getItem('token')) {
+    async onAddCartClicked(sku) {
+      if (sessionStorage.getItem("token")) {
         const data = await addCart({
           amount: sku.selectedNum,
           price: sku.selectedSkuComb.price / 100,
@@ -125,31 +149,30 @@ export default {
           Toast("加入成功");
           // this.count = this.$store.state.count;
           console.log(sku.selectedNum);
-          this.$store.dispatch('add', sku.selectedNum)
+          this.$store.dispatch("add", sku.selectedNum);
           // this.loadCount();
           this.show = false;
         }
       } else {
         this.show = false;
-        this.popupShow = true
+        this.popupShow = true;
       }
-
     },
-    onBuyClicked () { },
+    onBuyClicked() {},
   },
   computed: {
-    badge () {
-      if (sessionStorage.getItem('token')) {
+    badge() {
+      if (sessionStorage.getItem("token")) {
         if (this.$store.state.count > 0) {
-          return this.$store.state.count
+          return this.$store.state.count;
         } else {
-          return ''
+          return "";
         }
       } else {
-        return ''
+        return "";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

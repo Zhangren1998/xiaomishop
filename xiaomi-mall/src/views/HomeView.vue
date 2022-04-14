@@ -13,29 +13,38 @@
     <div class="hot">
       <h3>热卖爆品，火热感恩</h3>
       <p>千元全面屏现货抢</p>
-      <van-row type="flex" justify="space-around">
-        <van-col span="11" v-for="item in products" :key="item.id">
-          <van-card tag="新品热卖">
-            <template #thumb>
-              <img :src="item.coverImage | dalImg" alt="item.name" />
-            </template>
-            <template #title>
-              <h4>{{ item.name }}</h4>
-            </template>
-            <template #desc>
-              <p class="desc">描述信息</p>
-            </template>
-            <template #price>
-              <p class="price">
-                ￥<span>{{ item.price }}</span>起
-              </p>
-            </template>
-            <template #footer>
-              <van-button @click="toDetail(item.id)">立即购买</van-button>
-            </template>
-          </van-card>
-        </van-col>
-      </van-row>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="loadProducts"
+        class="content"
+      >
+        <van-row type="flex" justify="space-around">
+          <van-col span="11" v-for="item in products" :key="item.id">
+            <van-card tag="新品热卖">
+              <template #thumb>
+                <img :src="item.coverImage | dalImg" alt="item.name" />
+              </template>
+              <template #title>
+                <h4>{{ item.name }}</h4>
+              </template>
+              <template #desc>
+                <p class="desc">描述信息</p>
+              </template>
+              <template #price>
+                <p class="price">
+                  ￥<span>{{ item.price }}</span
+                  >起
+                </p>
+              </template>
+              <template #footer>
+                <van-button @click="toDetail(item.id)">立即购买</van-button>
+              </template>
+            </van-card>
+          </van-col>
+        </van-row>
+      </van-list>
 
       <div class="huasuan">
         <h4>感恩节必读省钱攻略怎么买最划算<a href=""></a></h4>
@@ -66,49 +75,54 @@ import { loadBanners } from "@/services/banner.js";
 import { loadProducts } from "@/services/products.js";
 export default {
   name: "Home",
-  data () {
+  data() {
     return {
       banners: [],
       value: "",
       page: 1,
       products: [],
-      token: '',
+      token: "",
       loading: false,
       finished: false,
       pages: 1,
     };
   },
-  created () {
+  created() {
     this.loadBanner();
     this.loadProducts();
 
     // this.loadProducts();
   },
   methods: {
-    toDetail (id) {
+    toDetail(id) {
       this.$router.push({
         name: "Detail",
         params: { id },
       });
     },
-    async loadBanner () {
+    async loadBanner() {
       const banner = await loadBanners();
       this.banners = banner.data;
       console.log(this.banners);
     },
-    async loadProducts () {
-      const resProducts = await loadProducts();
-      this.products = resProducts.data.data;
+    async loadProducts() {
+      const res = await loadProducts();
+      this.page++;
+      this.pages = res.pages;
+      this.products.push(...res.data.data);
+      if (this.page > this.pages) {
+        this.finished = true;
+      }
       console.log(this.products);
     },
-    toTop () {
+    toTop() {
       this.$nextTick(function () {
         document.documentElement.scrollTo({
           top: 0,
-          behavior: "smooth"
+          behavior: "smooth",
         });
-      })
-    }
+      });
+    },
   },
 };
 </script>
@@ -119,7 +133,6 @@ img {
 
 .top .van-sticky {
   display: flex;
-  /* flex-direction: row; */
 }
 
 .hot {

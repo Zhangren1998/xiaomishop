@@ -81,6 +81,7 @@ export default {
       value: "",
       page: 1,
       products: [],
+      token: "",
       loading: false,
       finished: false,
       pages: 1,
@@ -88,6 +89,8 @@ export default {
   },
   created() {
     this.loadBanner();
+    this.loadProducts();
+
     // this.loadProducts();
   },
   methods: {
@@ -113,8 +116,12 @@ export default {
       console.log(this.products);
     },
     toTop() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+      this.$nextTick(function () {
+        document.documentElement.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
     },
   },
 };

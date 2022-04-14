@@ -34,7 +34,13 @@
     />
     <van-goods-action>
       <van-goods-action-icon icon="chat-o" text="客服" dot />
-      <van-goods-action-icon icon="cart-o" text="购物车" :badge="badge" />
+      <!-- <van-goods-action-icon icon="cart-o" text="购物车" :badge="badge" /> -->
+      <van-goods-action-icon
+        icon="cart-o"
+        text="购物车"
+        :to="{ name: 'Cart' }"
+        :badge="$store.state.carts.count"
+      />
       <van-goods-action-button
         type="warning"
         text="加入购物车"
@@ -50,16 +56,16 @@
 </template>
 
 <script>
-import { loadCartAPI } from "@/services/carts";
 import { getDetails, addCart } from "@/services/details";
 import { serveUrl } from "@/utils/request";
 import { Toast } from "vant";
+import { areaList } from "@vant/area-data";
 export default {
   name: "XiaomiMallDetail",
 
   data() {
     return {
-      areaList: {},
+      areaList,
       popupShow: false,
       count: this.$store.state.count,
       detail: [],
@@ -106,19 +112,18 @@ export default {
       },
     };
   },
-
   mounted() {},
   created() {
-    this.loadDetail(), this.loadCount();
+    this.loadDetail();
   },
   methods: {
-    async loadCount() {
-      const data = await loadCartAPI();
-      this.count = data.data.data.reduce(
-        (pre, val) => pre * 1 + val.amount * 1,
-        0
-      );
-    },
+    // async loadCount () {
+    //   const data = await loadCartAPI();
+    //   this.count = data.data.data.reduce(
+    //     (pre, val) => pre * 1 + val.amount * 1,
+    //     0
+    //   );
+    // },
     async loadDetail() {
       const data = await getDetails(this.$route.params.id);
       this.detail = data.data.data;
@@ -142,8 +147,10 @@ export default {
         console.log(data);
         if (data.data.code == 1) {
           Toast("加入成功");
-          this.count = this.$store.state.count;
-          this.loadCount();
+          // this.count = this.$store.state.count;
+          console.log(sku.selectedNum);
+          this.$store.dispatch("add", sku.selectedNum);
+          // this.loadCount();
           this.show = false;
         }
       } else {
@@ -193,31 +200,38 @@ img {
   color: rgba(255, 112, 58, 1);
   /* margin: 5px 0; */
 }
+
 .price {
   display: flex;
   padding: 5px 0;
   align-items: center;
 }
+
 .price p:nth-of-type(1) {
   margin: 0 10px;
   color: rgba(166, 166, 166, 1);
   font-size: 14px;
 }
+
 .price span {
   text-decoration: line-through;
 }
+
 .price p:nth-of-type(2) {
   background-color: rgba(255, 112, 58, 1);
   color: white;
   padding: 3px;
   font-size: 12px;
 }
+
 .van-cell {
   padding: 5px;
 }
+
 .van-cell__value {
   text-align: left;
 }
+
 .huan {
   font-size: 12px;
   color: rgba(128, 128, 128, 1);

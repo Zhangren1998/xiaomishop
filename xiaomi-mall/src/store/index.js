@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    count: 0,
 
   },
   getters: {},
@@ -19,6 +18,7 @@ export default new Vuex.Store({
     carts: {
       state: {
         count: JSON.parse(sessionStorage.getItem('count')) || 0,
+        cartList: JSON.parse(sessionStorage.getItem('cartList')) || []
       },
       mutations: {
         add(state, n) {

@@ -42,6 +42,38 @@ const routes = [
     component: () => import("../views/Cart.vue"),
   },
   {
+    meta: {
+      tabHide: true,
+    },
+    name: "Order",
+    path: "/order",
+    component: () => import("../views/Order.vue"),
+  },
+  {
+    meta: {
+      tabHide: true,
+    },
+    name: "Pay",
+    path: "/pay",
+    component: () => import("../views/Pay.vue"),
+  },
+  {
+    meta: {
+      tabHide: true,
+    },
+    name: "PaySuccess",
+    path: "/paysuccess",
+    component: () => import("../views/PaySuccess.vue"),
+  },
+  {
+    meta: {
+      tabHide: true,
+    },
+    name: "OrderDetail",
+    path: "/orderdetail",
+    component: () => import("../views/OrderDetail.vue"),
+  },
+  {
     name: "Login",
     path: "/login",
     meta: {
